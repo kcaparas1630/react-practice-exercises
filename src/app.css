@@ -1,0 +1,26 @@
+/* DO NOT EDIT. Styles for the practice shell. Exercises are left unstyled on purpose. */
+:root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.45; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.shell { display: grid; grid-template-columns: 290px 1fr; min-height: 100vh; }
+.side { border-right: 1px solid #8884; padding: 14px 10px; overflow-y: auto; max-height: 100vh; position: sticky; top: 0; }
+.side h1 { font-size: 16px; margin: 0 6px 10px; }
+.side h2 { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; opacity: .65; margin: 14px 6px 4px; }
+.side a { display: block; padding: 5px 6px; border-radius: 5px; color: inherit; text-decoration: none; font-size: 14px; }
+.side a[aria-current="page"] { background: #8883; font-weight: 600; }
+.main { padding: 18px 22px 60px; min-width: 0; }
+.main h2 { margin: 0 0 2px; font-size: 22px; }
+.meta { opacity: .7; font-size: 13px; margin: 0 0 10px; }
+.files { font-size: 13px; margin: 0 0 12px; padding: 8px 10px; border: 1px solid #8884; border-radius: 6px; }
+.files code { font-family: ui-monospace, Menlo, Consolas, monospace; }
+.modes { display: flex; gap: 6px; margin-bottom: 12px; }
+.modes button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid #8886; background: transparent; color: inherit; cursor: pointer; }
+.modes button[aria-pressed="true"] { background: #2563eb; border-color: #2563eb; color: #fff; }
+.stage { border: 1px dashed #8886; border-radius: 8px; padding: 16px; }
+.crash { color: #b91c1c; white-space: pre-wrap; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+.stage table { border-collapse: collapse; }
+.stage th, .stage td { border: 1px solid #8885; padding: 4px 10px; text-align: left; }
+.stage pre { background: #8882; padding: 10px; border-radius: 6px; overflow-x: auto; }
+.stage input, .stage select, .stage button { font: inherit; margin: 2px 4px 2px 0; }
+.map-surface { height: 180px; margin-top: 8px; display: grid; place-items: center; background: #8883; border: 1px dashed #8888; border-radius: 6px; }
+@media (max-width: 760px) { .shell { grid-template-columns: 1fr; } .side { position: static; max-height: none; border-right: 0; border-bottom: 1px solid #8884; } }
