@@ -5,73 +5,72 @@ import { REGIONS, type Fire } from "./given";
 
 export default function FirePanel() {
   // TODO: a <select> of REGIONS, then fetch `/api/fires?region=${region}` and show every state
-  const [region, setRegion] = useState<string>("kamloops");
-  const [state, setState] = useState<FetchState>({status:"loading"});
-  const [attempt, setAttempt] = useState<number>(0);
-
-  type FetchState =
-    | { status: "loading" }
-    | { status: "error", message: string }
-    | { status: "success", fires: Fire[] }
-
+  type FetchState = 
+    | { state: "Loading" }
+    | { state: "Error", message: string }
+    | { state: "Success", fires: Fire[] }
+  
+  const [state, setState] = useState<FetchState>({ state: "Loading" });
+  const [region, setRegion] = useState<string>("");
+  const [attempts, setAttempts] = useState<number>(0);
+  
   useEffect(() => {
     const controller = new AbortController();
-    const fetchedFireData = async () => {
+    setState({state: "Loading"})
+    const fetchFireData = async () => {
       try {
-        setState({ status: "loading"})
-        const res = await fetch(`api/fires?region=${region}`, { signal: controller.signal })
-        if (!res.ok) throw new Error(`Request failed ${res.status}`)
-        const fetchedData = await res.json();
-        setState({ status:"success", fires:fetchedData })
+        const fireData = await fetch(`/api/fires?region=${region}`, { signal: controller.signal});
+        if (!fireData.ok) throw new Error(`Request Failed: ${fireData.status}`);
+        setState({ state: "Success", fires: await fireData.json() });
       }
       catch (error: unknown) {
         if (controller.signal.aborted) return;
-        setState({ status: "error", message: `Could not load fires: ${error}`})
+        setState({ state: "Error", message: `Could not load fires: ${error}` })
       }
     }
-    fetchedFireData();
-    return () => controller.abort();
-  }, [region, attempt])
+    fetchFireData();
+  }, [region, attempts]);
 
-  function renderContent() {
-    switch (state.status) {
-      case "loading":
-        return <p>Loading fires...</p>
-      case "error":
+  const renderContent = () => {
+    switch (state.state) {
+      case "Loading":
+        return <p>Loading fires...</p>;
+      case "Error":
         return (
-          <div role="alert" >
+          <div>
             <p>{state.message}</p>
-            <button
-              type="button"
-              onClick={() => setAttempt(() => attempt + 1)}>
-              Try Again
-              </button>
+            <button onClick={() => setAttempts((prev) => prev + 1)}>Try Again</button>
           </div>
         )
-      case "success":
-        if (state.fires.length === 0) return <p>No active fires in this region</p>
+      case "Success":
         return (
-          <ul>
-            {state.fires.map((fires) => (
-              <li key={fires.id}>{fires.name}, {fires.sizeHa}</li>
-            ))}
-         </ul>
-        )
+          <div>
+            <h2>Fires in {region}</h2>
+            <ul>
+              {state.fires.map((fire) => (
+                <li key={fire.id}>{fire.name}</li>
+              ))}
+            </ul>
+          </div>
+        );
     }
   }
   return (
     <div>
+      <label htmlFor="region-select">Select a region:</label>
       <select
-        name="Regions"
-        onChange={event => setRegion(event.target.value)}
+        id="region-select"
+        value={region}
+        onChange={(e) => setRegion(e.target.value)}
       >
-        {REGIONS.map((region) => (
-          <option value={region}>{region}</option>
+        <option value="">-- Select a region --</option>
+        {REGIONS.map((r) => (
+          <option key={r} value={r}>
+            {r}
+          </option>
         ))}
       </select>
       {renderContent()}
     </div>
-
-
   )
 }
