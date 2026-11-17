@@ -6,7 +6,7 @@ Tomorrow is for practice and getting fluent, not for learning new things. Give e
 
 ## Must do
 
-- [ ] **[02-fetch-states](src/exercises/02-fetch-states/README.md):** loading, error and success states. This is the core of the take-home.
+- [x] **[02-fetch-states](src/exercises/02-fetch-states/README.md):** loading, error and success states. This is the core of the take-home.
 - [ ] **[07-debounced-search](src/exercises/07-debounced-search/README.md):** the most likely follow-up to the take-home.
 - [ ] **[11-memo-rows](src/exercises/11-memo-rows/README.md):** `React.memo`, `useMemo` and `useCallback`. Practise saying when to use them and when not to.
 - [ ] **[06-group-and-summarise](src/exercises/06-group-and-summarise/README.md) from a blank file:** use the 5-step process below.
