@@ -65,7 +65,11 @@ export default function App() {
     const loadMod = find(mode === "mine" ? mineLoaders : referenceLoaders, folder);
 
     if (!loadDemo || !loadMod) {
-      setLoaded({ key, Demo: null, mod: null, error: "The files for this exercise were not found." });
+      const message =
+        mode === "reference" && loadDemo
+          ? "No reference solution for this one yet. It is added after you push your attempt."
+          : "The files for this exercise were not found.";
+      setLoaded({ key, Demo: null, mod: null, error: message });
       return;
     }
 
