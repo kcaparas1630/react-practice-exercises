@@ -225,5 +225,32 @@ export const CATALOG = [
     "kind": "Plain TypeScript",
     "minutes": 10,
     "group": "More practice"
+  },
+  {
+    "number": 26,
+    "folder": "26-user-directory",
+    "file": "Exercise.tsx",
+    "title": "User search",
+    "kind": "Unseen, timed",
+    "minutes": 20,
+    "group": "Unseen (no solution)"
+  },
+  {
+    "number": 27,
+    "folder": "27-flight-report",
+    "file": "Exercise.ts",
+    "title": "Flight report",
+    "kind": "Unseen, timed",
+    "minutes": 20,
+    "group": "Unseen (no solution)"
+  },
+  {
+    "number": 28,
+    "folder": "28-user-details",
+    "file": "Exercise.tsx",
+    "title": "User details panel",
+    "kind": "Unseen, timed",
+    "minutes": 20,
+    "group": "Unseen (no solution)"
   }
 ] as const;
