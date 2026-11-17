@@ -16,7 +16,7 @@ In the app, open **2. Fetch with every state handled** in the sidebar. It shows 
 
 ## Requirements
 
-- [ ] Use a `<select>` for the region, not a text input.
+- [x] Use a `<select>` for the region, not a text input.
 - [ ] Show four states: loading, error, empty (no fires) and the list.
 - [ ] A response that is not 200 counts as an error.
 - [ ] The error state has a Try again button that repeats the request.

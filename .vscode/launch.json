@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // Open a *.test.ts file, set breakpoints (in the test OR the code it imports), press F5.
+      "name": "Debug current test file (Vitest)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["run", "${relativeFile}", "--no-file-parallelism", "--test-timeout=0"],
+      "autoAttachChildProcesses": true,
+      "smartStep": true,
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      // Starts `npm run dev` and opens Chrome; breakpoints in any .tsx component work.
+      "name": "Debug app in Chrome (Vite)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "vite: dev",
+      "skipFiles": ["**/node_modules/**"]
+    }
+  ]
+}
