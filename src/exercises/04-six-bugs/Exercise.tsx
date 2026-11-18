@@ -1,4 +1,3 @@
-// @ts-nocheck
 // EDIT THIS FILE. The instructions are in README.md, in this folder.
 // Type checking is switched off here so the compiler does not give the bugs away.
 // Remove the first line once you think you have fixed all six.
@@ -7,36 +6,35 @@ import { useEffect, useState } from "react";
 import type { Fire } from "./given";
 
 export default function FireFeed({ fires }: { fires: Fire[] }) {
-  const [list, setList] = useState(fires);
+  // Local States
+  const [list, setList] = useState<Fire[]>(fires);
   const [seconds, setSeconds] = useState(0);
-  const [large, setLarge] = useState<Fire[]>([]);
+
+  const largeFires = list.filter((fire) => fire.sizeHa > 100);
 
   useEffect(() => {
-    setInterval(() => {
-      setSeconds(seconds + 1);
+   const id = setInterval(() => {
+      setSeconds(s => s + 1);
     }, 1000);
+    return () => clearInterval(id);
   }, []);
 
-  useEffect(() => {
-    setLarge(list.filter(f => f.sizeHa > 100));
-  }, [list]);
-
-  function dismiss(index: number) {
-    list.splice(index, 1);
-    setList(list);
+  function dismiss(id: string) {
+    const filteredList = list.filter((fire) => fire.id !== id);
+    setList(filteredList);
   }
 
   return (
     <div>
       <p>
-        Open for {seconds}s. {large.length} large fires.
+        Open for {seconds}s. {largeFires.length} large fires.
       </p>
       <ul>
-        {list.map((fire, i) => (
-          <li key={i}>
-            <input placeholder="Note" />
+        {list.map((fire) => (
+          <li key={fire.id}>
+            <input type="text" placeholder="Note" />
             {fire.name}
-            <button onClick={dismiss(i)}>Dismiss</button>
+            <button onClick={() => dismiss(fire.id)}>Dismiss</button>
           </li>
         ))}
       </ul>

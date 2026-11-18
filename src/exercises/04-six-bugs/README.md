@@ -21,11 +21,11 @@ In the app, open **4. Find the six bugs** in the sidebar. It shows your code. Th
 
 ## Check your work
 
-- [ ] Three fires are listed. (The starter shows none. That is one of the bugs.)
-- [ ] The seconds counter keeps counting past 1.
-- [ ] Type a note beside Bute Inlet, then dismiss Shetland Creek: the note stays with Bute Inlet.
-- [ ] Dismiss removes exactly one row.
-- [ ] "2 large fires" shows on the first render, with no flash of 0.
+- [x] Three fires are listed. (The starter shows none. That is one of the bugs.)
+- [x] The seconds counter keeps counting past 1.
+- [x] Type a note beside Bute Inlet, then dismiss Shetland Creek: the note stays with Bute Inlet.
+- [x] Dismiss removes exactly one row.
+- [x] "2 large fires" shows on the first render, with no flash of 0.
 
 ## While you work
 
