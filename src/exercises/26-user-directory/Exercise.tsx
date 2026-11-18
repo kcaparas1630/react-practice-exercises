@@ -1,7 +1,8 @@
 // EDIT THIS FILE. The instructions are in README.md, in this folder.
-
 /**
-[x]1. A text box. Its value is kept in React state (a controlled input).
+ * ## Requirements
+
+1. [x] A text box. Its value is kept in React state (a controlled input).
 2. When the page opens, show all users (call `searchUsers("")`).
 3. When I type, call `searchUsers` with the text, but **wait until I stop typing for 300 ms**. Typing "maya" quickly should make one call, not four.
 4. While waiting for an answer, show "Searching...".
@@ -10,70 +11,62 @@
 7. If `searchUsers` throws, show "Search failed. Try again."
 8. **Never show results for old text.** If I type `m`, wait a moment, then type `a` (so the box says `ma`), the slow answer for `m` must not replace the answer for `ma`.
  */
-
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { searchUsers, type User } from "./given";
-
-const useDeboucedValue = (value: T, delayMs: number): T => {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      
-    })
-  })
-
-}
 
 export default function UserSearch() {
   const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [users, setUsers] = useState<User[]>([]);
-  
+
   const trimmedQuery = query.trim().toLowerCase();
+
   const filteredUsers = users.filter((user) => user.email.toLowerCase().includes(trimmedQuery) || user.name.toLowerCase().includes(trimmedQuery));
 
   useEffect(() => {
     let ignore = false;
-    const fetchUsers = async () => {
+    const fetchUser = async() => {
       try {
         setLoading(true);
         setError(false);
-        const data = await searchUsers(query)
-        if(!data) throw new Error("Search failed. Try again");
-        if(!ignore)setUsers(data);
+        const fetchUserData  = await searchUsers(query);
+        if (!fetchUserData) throw new Error("Something went wrong");
+        if (!ignore) setUsers(fetchUserData);
         setLoading(false);
-      } catch(error: unknown) {
+      } catch (error: unknown) {
         if (!ignore) setError(true);
       } finally {
         if (!ignore) setLoading(false);
       }
     }
-    fetchUsers();
+    const handler = setTimeout(() => {
+      fetchUser();
+    }, 300)
     return () => {
       ignore = true;
+      clearTimeout(handler);
     }
   }, [query])
-  
+
   return (
     <div>
       <input
         type="text"
         value={query}
         onChange={e => setQuery(e.target.value)}
-      />
-      <p>{users.length} users found</p>
-      {loading && <p>Searching...</p>}
-      {!loading && error && <p>Search failed. Try again</p>}
-      {!loading && !error && (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>{user.name}, {user.email}, {user.role}</li>
-          ))}
-      </ul>
-      )}
-      
+        />
+      {loading ? <p>Searching...</p>
+        : error ? <p>Search failed. Try again.</p>
+        : users.length === 0 ? <p>No users found.</p>
+        : (<>
+            <p>{users.length} users found</p>
+            <ul>
+              {filteredUsers.map((user) => (
+                <li key={user.id}>{user.name}, {user.email}, {user.role}</li>
+              ))}
+            </ul>
+      </>)}      
     </div>
   )
 }
